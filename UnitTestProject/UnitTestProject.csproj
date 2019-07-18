@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="RequestManagerUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ComparerManagerUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

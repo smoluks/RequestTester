@@ -1,16 +1,42 @@
-﻿using System.Threading.Tasks;
+﻿using RequestTester.Entities;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RequestTester.Managers
 {
-    internal class ComparerManager
+    public static class ComparerManager
     {
-        //Task[] tasks = new Task[2]
-        //{
-        //    Task.Factory.StartNew(() => RequestManager.MakeRequest()),
-        //    Task.Factory.StartNew(() => RequestManager.MakeRequest()),
-        //};
+        public static async Task<(CompareResult result, string error)> Compare(Request request, string[] servers, CancellationToken cancellationToken)
+        {
+            var tasks = new Task<Response>[servers.Length];
+            for(int i = 0; i< servers.Length; i++)
+            {
+                tasks[i] = RequestManager.MakeRequest(request, servers[i], cancellationToken);
+            };
 
-        ////Block until all tasks complete.
-        //Task.WaitAll(tasks);
+            var results = await Task.WhenAll(tasks);
+
+            string lastcontent = null;
+            foreach(var result in results)
+            {
+                if (!result.isSuccessed)
+                    return (CompareResult.Error, result.error);
+
+                if(lastcontent != null)
+                {
+                    if (!result.data.Equals(lastcontent))
+                        return (CompareResult.NotEquals, null);
+                }
+            }
+
+            return (CompareResult.Equals, null);
+        }
+
+        public enum CompareResult
+        {
+            Equals,
+            NotEquals,
+            Error
+        }
     }
 }
