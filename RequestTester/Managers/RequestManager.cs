@@ -15,10 +15,10 @@ namespace RequestTester.Managers
 
         public static async Task<Response> MakeRequest(Request request, string server, CancellationToken cancellationToken, int timeout = 0)
         {
-            if(timeout == 0)
-                client.Timeout = TimeSpan.FromMilliseconds(defaultTimeout);
-            else
-                client.Timeout = TimeSpan.FromMilliseconds(timeout);
+           // if(timeout == 0)
+           //     client.Timeout = TimeSpan.FromMilliseconds(defaultTimeout);
+           //else
+           //     client.Timeout = TimeSpan.FromMilliseconds(timeout);
 
             //send request
             try

@@ -42,6 +42,9 @@
             this.buttonStop = new System.Windows.Forms.Button();
             this.numericUpDownMaxParallel = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.requestCaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ColumnRequest = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +52,7 @@
             this.contextMenuStripServerList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxParallel)).BeginInit();
+            this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.requestCaseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +65,7 @@
             this.groupBox1.Controls.Add(this.listBoxServers);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(223, 426);
+            this.groupBox1.Size = new System.Drawing.Size(223, 432);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Servers";
@@ -69,7 +73,7 @@
             // textBoxServerForAdd
             // 
             this.textBoxServerForAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxServerForAdd.Location = new System.Drawing.Point(6, 397);
+            this.textBoxServerForAdd.Location = new System.Drawing.Point(6, 403);
             this.textBoxServerForAdd.Name = "textBoxServerForAdd";
             this.textBoxServerForAdd.Size = new System.Drawing.Size(185, 20);
             this.textBoxServerForAdd.TabIndex = 2;
@@ -77,7 +81,7 @@
             // buttonServerAdd
             // 
             this.buttonServerAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonServerAdd.Location = new System.Drawing.Point(197, 397);
+            this.buttonServerAdd.Location = new System.Drawing.Point(197, 403);
             this.buttonServerAdd.Name = "buttonServerAdd";
             this.buttonServerAdd.Size = new System.Drawing.Size(20, 20);
             this.buttonServerAdd.TabIndex = 1;
@@ -107,14 +111,14 @@
             // deleteSelectedToolStripMenuItem
             // 
             this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
-            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteSelectedToolStripMenuItem.Text = "Delete selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectedToolStripMenuItem_Click);
             // 
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearAllToolStripMenuItem.Text = "Clear all";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
@@ -123,15 +127,13 @@
             this.dataGridViewResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewResults.AutoGenerateColumns = false;
             this.dataGridViewResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnRequest,
             this.ColumnStatus});
-            this.dataGridViewResults.DataSource = this.requestCaseBindingSource;
             this.dataGridViewResults.Location = new System.Drawing.Point(367, 22);
             this.dataGridViewResults.Name = "dataGridViewResults";
-            this.dataGridViewResults.Size = new System.Drawing.Size(303, 416);
+            this.dataGridViewResults.Size = new System.Drawing.Size(303, 422);
             this.dataGridViewResults.TabIndex = 2;
             // 
             // buttonStart
@@ -195,6 +197,27 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "max threads:";
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar,
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 447);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(682, 22);
+            this.statusStrip.TabIndex = 8;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar
+            // 
+            this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Size = new System.Drawing.Size(200, 16);
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+            // 
             // requestCaseBindingSource
             // 
             this.requestCaseBindingSource.DataSource = typeof(RequestTester.Entities.RequestCase);
@@ -218,7 +241,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 450);
+            this.ClientSize = new System.Drawing.Size(682, 469);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownMaxParallel);
             this.Controls.Add(this.buttonStop);
@@ -234,6 +258,8 @@
             this.contextMenuStripServerList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxParallel)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.requestCaseBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -256,6 +282,9 @@
         private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown numericUpDownMaxParallel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRequest;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnStatus;
     }

@@ -71,7 +71,7 @@ namespace RequestTester
                 cancelTokenSource.Cancel();
              cancelTokenSource = new CancellationTokenSource();
 
-            await RunQueries(servers.ToArray(), cancelTokenSource.Token, (int)numericUpDownMaxParallel.Value);
+            await RunQueries(servers.ToArray(), cancelTokenSource.Token, (data.Count < (int)numericUpDownMaxParallel.Value) ? data.Count : (int)numericUpDownMaxParallel.Value);
         }
 
         private void ButtonStop_Click(object sender, EventArgs e)
@@ -90,7 +90,9 @@ namespace RequestTester
 
         async Task RunQueries(string[] servers, CancellationToken token, int maxParallel)
         {
+            int i = 0;
             UpdateDataGridViewResultsInvoke();
+            UpdateProgressInvoke(i, data.Count);
 
             var taskList = new List<Task>(maxParallel);
             foreach (var requestCase in data)
@@ -106,14 +108,26 @@ namespace RequestTester
                     taskList.Remove(result);
 
                     UpdateDataGridViewResultsInvoke();
+                    UpdateProgressInvoke(++i, data.Count);
                 }
             }
         }
 
         void UpdateDataGridViewResultsInvoke()
         {
-            dataGridViewResults.Invoke((MethodInvoker)delegate { dataGridViewResults.Update(); });
-            dataGridViewResults.Invoke((MethodInvoker)delegate { dataGridViewResults.Refresh(); });
+            dataGridViewResults.Invoke((MethodInvoker)delegate {
+                dataGridViewResults.Update();
+                dataGridViewResults.Refresh();
+            });
+        }
+
+        void UpdateProgressInvoke(int completed, int total)
+        {
+            statusStrip.Invoke((MethodInvoker)delegate {
+                toolStripProgressBar.Maximum = total;
+                toolStripProgressBar.Value = completed;
+                toolStripStatusLabel.Text = $"{completed} of {total}";
+            });
         }
 
     }
