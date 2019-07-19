@@ -47,19 +47,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Request.cs" />
+    <Compile Include="Entities\RequestCase.cs" />
     <Compile Include="Entities\Response.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainFrm.Designer.cs">
+      <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Managers\ComparerManager.cs" />
+    <Compile Include="Managers\RequestParallelManager.cs" />
+    <Compile Include="Managers\RequestLoaderManager.cs" />
     <Compile Include="Managers\RequestManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainFrm.resx">
+      <DependentUpon>MainFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -70,6 +72,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\RequestTester.Entities.RequestCase.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

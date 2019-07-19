@@ -13,16 +13,7 @@ namespace RequestTester.Managers
 
         public static async Task<Response> MakeRequest(Request request, string server, CancellationToken cancellationToken)
         {
-            //make request query
-            string requestString = server + request.path;
-            if(request.parameters.Count > 0)
-            {
-                requestString += "?";
-                foreach(var parm in request.parameters)
-                {
-                    requestString += $"{parm.Key}={parm.Value}&";
-                }
-            }
+           
 
             //send request
             try
@@ -30,24 +21,24 @@ namespace RequestTester.Managers
                 switch(request.requestType)
                 {
                     case Request.RequestType.GET:
-                        using (var result = await client.GetAsync(requestString, cancellationToken))
+                        using (var result = await client.GetAsync(server + request.query, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
                     case Request.RequestType.POST:
                         using (var content = new StringContent(request.content, UnicodeEncoding.UTF8, "application/json"))
-                        using (var result = await client.PostAsync(requestString, content, cancellationToken))
+                        using (var result = await client.PostAsync(server + request.query, content, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
                     case Request.RequestType.PUT:
                         using (var content = new StringContent(request.content, UnicodeEncoding.UTF8, "application/json"))
-                        using (var result = await client.PutAsync(requestString, content, cancellationToken))
+                        using (var result = await client.PutAsync(server + request.query, content, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
                     case Request.RequestType.DELETE:
-                        using (var result = await client.DeleteAsync(requestString, cancellationToken))
+                        using (var result = await client.DeleteAsync(server + request.query, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }

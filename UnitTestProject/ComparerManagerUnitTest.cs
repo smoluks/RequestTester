@@ -14,7 +14,7 @@ namespace UnitTestProject
         [TestMethod]
         public async Task TestMethod1Async()
         {
-            var result = await ComparerManager.Compare(
+            var result = await RequestParallelManager.Compare(
                 new Request
                 {
                     requestType = Request.RequestType.GET,
@@ -23,7 +23,7 @@ namespace UnitTestProject
                 new string[] { "https://ya.ru/", "https://yandex.ru/" },
                 CancellationToken.None);
 
-            Assert.IsTrue(result.result  == ComparerManager.CompareResult.Equals);
+            Assert.IsTrue(result.result  == RequestParallelManager.CompareResult.Equals);
         }
     }
 }

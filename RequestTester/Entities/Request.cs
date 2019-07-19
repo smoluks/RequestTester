@@ -20,5 +20,28 @@ namespace RequestTester.Entities
             PUT,
             DELETE
         }
+
+        public string query
+        {
+            get
+            {
+                string requestString = path;
+                if (parameters != null && parameters.Count > 0)
+                {
+                    requestString += "?";
+                    foreach (var parm in parameters)
+                    {
+                        requestString += $"{parm.Key}={parm.Value}&";
+                    }
+                }
+
+                return requestString;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{requestType.ToString()}: {query}";
+        }
     }
 }
