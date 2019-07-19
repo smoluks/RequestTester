@@ -37,6 +37,8 @@
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewResults = new System.Windows.Forms.DataGridView();
+            this.ColumnRequest = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
@@ -46,8 +48,6 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.requestCaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.ColumnRequest = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.contextMenuStripServerList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).BeginInit();
@@ -111,14 +111,14 @@
             // deleteSelectedToolStripMenuItem
             // 
             this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
-            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.deleteSelectedToolStripMenuItem.Text = "Delete selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectedToolStripMenuItem_Click);
             // 
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.clearAllToolStripMenuItem.Text = "Clear all";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
@@ -135,6 +135,22 @@
             this.dataGridViewResults.Name = "dataGridViewResults";
             this.dataGridViewResults.Size = new System.Drawing.Size(303, 422);
             this.dataGridViewResults.TabIndex = 2;
+                       this.dataGridViewResults.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewResults_CellDoubleClick);
+            // 
+            // ColumnRequest
+            // 
+            this.ColumnRequest.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnRequest.DataPropertyName = "Request";
+            this.ColumnRequest.HeaderText = "Request";
+            this.ColumnRequest.Name = "ColumnRequest";
+            this.ColumnRequest.ReadOnly = true;
+            // 
+            // ColumnStatus
+            // 
+            this.ColumnStatus.DataPropertyName = "Status";
+            this.ColumnStatus.HeaderText = "Status";
+            this.ColumnStatus.Name = "ColumnStatus";
+            this.ColumnStatus.ReadOnly = true;
             // 
             // buttonStart
             // 
@@ -221,21 +237,6 @@
             // requestCaseBindingSource
             // 
             this.requestCaseBindingSource.DataSource = typeof(RequestTester.Entities.RequestCase);
-            // 
-            // ColumnRequest
-            // 
-            this.ColumnRequest.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnRequest.DataPropertyName = "Request";
-            this.ColumnRequest.HeaderText = "Request";
-            this.ColumnRequest.Name = "ColumnRequest";
-            this.ColumnRequest.ReadOnly = true;
-            // 
-            // ColumnStatus
-            // 
-            this.ColumnStatus.DataPropertyName = "Status";
-            this.ColumnStatus.HeaderText = "Status";
-            this.ColumnStatus.Name = "ColumnStatus";
-            this.ColumnStatus.ReadOnly = true;
             // 
             // MainFrm
             // 

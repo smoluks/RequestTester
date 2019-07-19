@@ -130,5 +130,13 @@ namespace RequestTester
             });
         }
 
+
+        private void DataGridViewResults_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = (DataGridViewRow)dataGridViewResults.Rows[e.RowIndex];
+
+            DiffManager.ShowDiff((RequestCase)row.DataBoundItem);
+
+        }
     }
 }

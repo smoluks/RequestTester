@@ -55,6 +55,7 @@
     <Compile Include="MainFrm.Designer.cs">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Managers\DiffManager.cs" />
     <Compile Include="Managers\RequestParallelManager.cs" />
     <Compile Include="Managers\RequestLoaderManager.cs" />
     <Compile Include="Managers\RequestManager.cs" />
