@@ -6,14 +6,12 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace RequestTester
 {
     public partial class MainFrm : Form
     {
-        const int maxParallel = 100;
-        const int timeout = 10000;
-
         BindingList<RequestCase> data = new BindingList<RequestCase>();
 
         public MainFrm()
@@ -58,6 +56,11 @@ namespace RequestTester
 
         private async void ButtonStart_Click(object sender, EventArgs e)
         {
+            foreach (var requestCase in data)
+            {
+                requestCase._status = RequestCase.CaseStatus.NotDefined;
+            }
+
             var servers = new List<string>();
             foreach(var server in listBoxServers.Items)
             {
@@ -68,22 +71,33 @@ namespace RequestTester
                 cancelTokenSource.Cancel();
              cancelTokenSource = new CancellationTokenSource();
 
-            await RunQueries(servers.ToArray(), cancelTokenSource.Token);
+            await RunQueries(servers.ToArray(), cancelTokenSource.Token, (int)numericUpDownMaxParallel.Value);
         }
 
         private void ButtonStop_Click(object sender, EventArgs e)
         {
             if(cancelTokenSource != null)
                 cancelTokenSource.Cancel();
+
+            foreach (var requestCase in data)
+            {
+                if (requestCase._status == RequestCase.CaseStatus.Running)
+                {
+                    requestCase._status = RequestCase.CaseStatus.Breaked;
+                }
+            }
         }
 
-        async Task RunQueries(string[] servers, CancellationToken token)
+        async Task RunQueries(string[] servers, CancellationToken token, int maxParallel)
         {
             UpdateDataGridViewResultsInvoke();
 
             var taskList = new List<Task>(maxParallel);
             foreach (var requestCase in data)
             {
+                if (token.IsCancellationRequested)
+                    continue;
+
                 var task = RequestParallelManager.QueryParallel(requestCase, servers, token);
                 taskList.Add(task);
                 if (taskList.Count == maxParallel)

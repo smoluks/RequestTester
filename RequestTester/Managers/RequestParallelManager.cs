@@ -8,7 +8,7 @@ namespace RequestTester.Managers
     {
         public static async Task QueryParallel(RequestCase requestCase, string[] servers, CancellationToken cancellationToken)
         {
-            requestCase.isRunning = true;
+            requestCase._status = RequestCase.CaseStatus.Running;
 
             var tasks = new Task<Response>[servers.Length];
             for(int i = 0; i< servers.Length; i++)
@@ -24,8 +24,7 @@ namespace RequestTester.Managers
                 requestCase.Responses.Add(servers[i], results[i]);
             }
 
-            requestCase.CompareResults();
-            requestCase.isRunning = false;
+            requestCase.CompareResults(cancellationToken);
         }
     }
 }

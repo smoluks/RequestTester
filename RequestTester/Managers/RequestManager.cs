@@ -9,11 +9,16 @@ namespace RequestTester.Managers
 {
     public static class RequestManager
     {
-        private static readonly HttpClient client = new HttpClient();
+        const int defaultTimeout = 3000;
 
-        public static async Task<Response> MakeRequest(Request request, string server, CancellationToken cancellationToken)
+        static readonly HttpClient client = new HttpClient();
+
+        public static async Task<Response> MakeRequest(Request request, string server, CancellationToken cancellationToken, int timeout = 0)
         {
-           
+            if(timeout == 0)
+                client.Timeout = TimeSpan.FromMilliseconds(defaultTimeout);
+            else
+                client.Timeout = TimeSpan.FromMilliseconds(timeout);
 
             //send request
             try

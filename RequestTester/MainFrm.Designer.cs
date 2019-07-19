@@ -40,12 +40,15 @@
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
+            this.numericUpDownMaxParallel = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.requestCaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ColumnRequest = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.contextMenuStripServerList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxParallel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.requestCaseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,16 +129,16 @@
             this.ColumnRequest,
             this.ColumnStatus});
             this.dataGridViewResults.DataSource = this.requestCaseBindingSource;
-            this.dataGridViewResults.Location = new System.Drawing.Point(322, 22);
+            this.dataGridViewResults.Location = new System.Drawing.Point(367, 22);
             this.dataGridViewResults.Name = "dataGridViewResults";
-            this.dataGridViewResults.Size = new System.Drawing.Size(348, 377);
+            this.dataGridViewResults.Size = new System.Drawing.Size(303, 416);
             this.dataGridViewResults.TabIndex = 2;
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(241, 112);
+            this.buttonStart.Location = new System.Drawing.Point(241, 143);
             this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(75, 27);
+            this.buttonStart.Size = new System.Drawing.Size(120, 27);
             this.buttonStart.TabIndex = 3;
             this.buttonStart.Text = "Start";
             this.buttonStart.UseVisualStyleBackColor = true;
@@ -145,7 +148,7 @@
             // 
             this.buttonLoad.Location = new System.Drawing.Point(241, 31);
             this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(75, 27);
+            this.buttonLoad.Size = new System.Drawing.Size(120, 27);
             this.buttonLoad.TabIndex = 4;
             this.buttonLoad.Text = "Load";
             this.buttonLoad.UseVisualStyleBackColor = true;
@@ -153,13 +156,44 @@
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(241, 145);
+            this.buttonStop.Location = new System.Drawing.Point(241, 176);
             this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(75, 27);
+            this.buttonStop.Size = new System.Drawing.Size(120, 27);
             this.buttonStop.TabIndex = 5;
             this.buttonStop.Text = "Stop";
             this.buttonStop.UseVisualStyleBackColor = true;
             this.buttonStop.Click += new System.EventHandler(this.ButtonStop_Click);
+            // 
+            // numericUpDownMaxParallel
+            // 
+            this.numericUpDownMaxParallel.Location = new System.Drawing.Point(241, 117);
+            this.numericUpDownMaxParallel.Maximum = new decimal(new int[] {
+            276447231,
+            23283,
+            0,
+            0});
+            this.numericUpDownMaxParallel.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxParallel.Name = "numericUpDownMaxParallel";
+            this.numericUpDownMaxParallel.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownMaxParallel.TabIndex = 6;
+            this.numericUpDownMaxParallel.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(241, 101);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "max threads:";
             // 
             // requestCaseBindingSource
             // 
@@ -185,6 +219,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 450);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numericUpDownMaxParallel);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.buttonStart);
@@ -197,8 +233,10 @@
             this.groupBox1.PerformLayout();
             this.contextMenuStripServerList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxParallel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.requestCaseBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -216,6 +254,8 @@
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.ToolStripMenuItem deleteSelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxParallel;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRequest;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnStatus;
     }

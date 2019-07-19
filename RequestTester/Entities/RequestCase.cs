@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace RequestTester.Entities
 {
@@ -8,30 +9,27 @@ namespace RequestTester.Entities
 
         public Dictionary<string, Response> Responses = new Dictionary<string, Response>();
 
-        public CompareResult result = CompareResult.NotDefined;
-
-        public bool isRunning = false;
+        public CaseStatus _status = CaseStatus.NotDefined;
 
         public string Request { get => request.ToString(); }
         public string Status
         {
             get
             {
-                if (isRunning)
-                    return "Running";
-                else
+                switch (_status)
                 {
-                    switch (result)
-                    {
-                        case CompareResult.Equals:
-                            return "OK";
-                        case CompareResult.NotEquals:
-                            return "Different";
-                        case CompareResult.Error:
-                            return "Error";
-                        default:
-                            return "";
-                    }
+                    case CaseStatus.Running:
+                        return "Running";
+                    case CaseStatus.Breaked:
+                        return "Breaked";
+                    case CaseStatus.Equals:
+                        return "OK";
+                    case CaseStatus.NotEquals:
+                        return "Different";
+                    case CaseStatus.Error:
+                        return "Error";
+                    default:
+                        return "";
                 }
             }
         }
@@ -42,13 +40,19 @@ namespace RequestTester.Entities
         }
 
 
-        public void CompareResults()
+        public void CompareResults(CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                _status = CaseStatus.Breaked;
+                return;
+            }
+
             foreach (var responce in Responses.Values)
             {
                 if (!responce.isSuccessed)
                 {
-                    result = CompareResult.Error;
+                    _status = CaseStatus.Error;
                     return;
                 }
             }
@@ -60,21 +64,23 @@ namespace RequestTester.Entities
                 {
                     if (!responce.data.Equals(lastcontent))
                     {
-                        result = CompareResult.NotEquals;
+                        _status = CaseStatus.NotEquals;
                         return;
                     }
                 }
                 lastcontent = responce.data;
             }
-            result = CompareResult.Equals;
+            _status = CaseStatus.Equals;
         }
 
-        public enum CompareResult
+        public enum CaseStatus
         {
             NotDefined,
+            Running,
             Equals,
             NotEquals,
-            Error
+            Error,
+            Breaked
         }
     }
 }
