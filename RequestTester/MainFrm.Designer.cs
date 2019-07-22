@@ -73,7 +73,7 @@
             // textBoxServerForAdd
             // 
             this.textBoxServerForAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxServerForAdd.Location = new System.Drawing.Point(6, 403);
+            this.textBoxServerForAdd.Location = new System.Drawing.Point(6, 406);
             this.textBoxServerForAdd.Name = "textBoxServerForAdd";
             this.textBoxServerForAdd.Size = new System.Drawing.Size(185, 20);
             this.textBoxServerForAdd.TabIndex = 2;
@@ -81,7 +81,7 @@
             // buttonServerAdd
             // 
             this.buttonServerAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonServerAdd.Location = new System.Drawing.Point(197, 403);
+            this.buttonServerAdd.Location = new System.Drawing.Point(197, 406);
             this.buttonServerAdd.Name = "buttonServerAdd";
             this.buttonServerAdd.Size = new System.Drawing.Size(20, 20);
             this.buttonServerAdd.TabIndex = 1;
@@ -97,7 +97,7 @@
             this.listBoxServers.FormattingEnabled = true;
             this.listBoxServers.Location = new System.Drawing.Point(6, 19);
             this.listBoxServers.Name = "listBoxServers";
-            this.listBoxServers.Size = new System.Drawing.Size(211, 368);
+            this.listBoxServers.Size = new System.Drawing.Size(211, 381);
             this.listBoxServers.TabIndex = 0;
             // 
             // contextMenuStripServerList
@@ -135,7 +135,7 @@
             this.dataGridViewResults.Name = "dataGridViewResults";
             this.dataGridViewResults.Size = new System.Drawing.Size(303, 422);
             this.dataGridViewResults.TabIndex = 2;
-                       this.dataGridViewResults.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewResults_CellDoubleClick);
+            this.dataGridViewResults.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewResults_CellDoubleClick);
             // 
             // ColumnRequest
             // 
@@ -174,6 +174,7 @@
             // 
             // buttonStop
             // 
+            this.buttonStop.Enabled = false;
             this.buttonStop.Location = new System.Drawing.Point(241, 176);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(120, 27);

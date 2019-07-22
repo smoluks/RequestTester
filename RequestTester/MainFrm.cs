@@ -12,7 +12,7 @@ namespace RequestTester
 {
     public partial class MainFrm : Form
     {
-        BindingList<RequestCase> data = new BindingList<RequestCase>();
+        BindingList<RequestCase> requestsCases = new BindingList<RequestCase>();
 
         public MainFrm()
         {
@@ -21,7 +21,7 @@ namespace RequestTester
 
         private void MainFrm_Load(object sender, EventArgs e)
         {
-            dataGridViewResults.DataSource = data;
+            dataGridViewResults.DataSource = requestsCases;
             listBoxServers.Items.Add("https://ya.ru/");
             listBoxServers.Items.Add("https://yandex.ru/");
         }
@@ -45,10 +45,10 @@ namespace RequestTester
 
         private void ButtonLoad_Click(object sender, EventArgs e)
         {
-            data.Clear();
+            requestsCases.Clear();
             foreach (var request in RequestLoaderManager.LoadRequests())
             {
-                data.Add(request);
+                requestsCases.Add(request);
             }
         }
 
@@ -56,7 +56,13 @@ namespace RequestTester
 
         private async void ButtonStart_Click(object sender, EventArgs e)
         {
-            foreach (var requestCase in data)
+            buttonStart.Enabled = false;
+            listBoxServers.Enabled = false;
+            buttonServerAdd.Enabled = false;
+            buttonLoad.Enabled = false;
+            buttonStop.Enabled = true;
+
+            foreach (var requestCase in requestsCases)
             {
                 requestCase._status = RequestCase.CaseStatus.NotDefined;
             }
@@ -70,8 +76,14 @@ namespace RequestTester
             if (cancelTokenSource != null)
                 cancelTokenSource.Cancel();
              cancelTokenSource = new CancellationTokenSource();
+            
+            await RunQueries(servers.ToArray(), cancelTokenSource.Token, (requestsCases.Count < (int)numericUpDownMaxParallel.Value) ? requestsCases.Count : (int)numericUpDownMaxParallel.Value);
 
-            await RunQueries(servers.ToArray(), cancelTokenSource.Token, (data.Count < (int)numericUpDownMaxParallel.Value) ? data.Count : (int)numericUpDownMaxParallel.Value);
+            buttonStart.Enabled = true;
+            listBoxServers.Enabled = true;
+            buttonServerAdd.Enabled = true;
+            buttonLoad.Enabled = true;
+            buttonStop.Enabled = false;
         }
 
         private void ButtonStop_Click(object sender, EventArgs e)
@@ -79,7 +91,7 @@ namespace RequestTester
             if(cancelTokenSource != null)
                 cancelTokenSource.Cancel();
 
-            foreach (var requestCase in data)
+            foreach (var requestCase in requestsCases)
             {
                 if (requestCase._status == RequestCase.CaseStatus.Running)
                 {
@@ -88,29 +100,33 @@ namespace RequestTester
             }
         }
 
+        int completedCases = 0;
         async Task RunQueries(string[] servers, CancellationToken token, int maxParallel)
         {
-            int i = 0;
+            completedCases = 0;
             UpdateDataGridViewResultsInvoke();
-            UpdateProgressInvoke(i, data.Count);
+            UpdateProgressInvoke(completedCases, requestsCases.Count);
 
-            var taskList = new List<Task>(maxParallel);
-            foreach (var requestCase in data)
+            try
             {
-                if (token.IsCancellationRequested)
-                    continue;
-
-                var task = RequestParallelManager.QueryParallel(requestCase, servers, token);
-                taskList.Add(task);
-                if (taskList.Count == maxParallel)
+                var coldTasks = new List<Task>(requestsCases.Count);
+                foreach (var requstCase in requestsCases)
                 {
-                    var result = await Task.WhenAny(taskList).ConfigureAwait(false);
-                    taskList.Remove(result);
-
-                    UpdateDataGridViewResultsInvoke();
-                    UpdateProgressInvoke(++i, data.Count);
+                    coldTasks.Add(new Task(async () => await RequestParallelManager.QueryParallel(requstCase, servers, token)));
                 }
+
+                await ThreadManager.Run(coldTasks, maxParallel, caseCallback, token);
             }
+            catch(TaskCanceledException)
+            {
+            }
+        }
+
+        
+        private void caseCallback()
+        {            
+            UpdateDataGridViewResultsInvoke();
+            UpdateProgressInvoke(++completedCases, requestsCases.Count);
         }
 
         void UpdateDataGridViewResultsInvoke()

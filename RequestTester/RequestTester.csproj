@@ -59,6 +59,7 @@
     <Compile Include="Managers\RequestParallelManager.cs" />
     <Compile Include="Managers\RequestLoaderManager.cs" />
     <Compile Include="Managers\RequestManager.cs" />
+    <Compile Include="Managers\ThreadManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainFrm.resx">

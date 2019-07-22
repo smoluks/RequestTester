@@ -16,15 +16,20 @@ namespace RequestTester.Managers
                 tasks[i] = RequestManager.MakeRequest(requestCase.request, servers[i], cancellationToken);
             };
 
-            var results = await Task.WhenAll(tasks);
-
-            requestCase.Responses.Clear();
-            for (int i = 0; i < servers.Length; i++)
+            try
             {
-                requestCase.Responses.Add(servers[i], results[i]);
-            }
+                var results = await Task.WhenAll(tasks);
 
-            requestCase.CompareResults(cancellationToken);
+                requestCase.Responses.Clear();
+                for (int i = 0; i < servers.Length; i++)
+                {
+                    requestCase.Responses.Add(servers[i], results[i]);
+                }
+
+                requestCase.CompareResults(cancellationToken);
+            }
+            catch(TaskCanceledException)
+            {  }
         }
     }
 }
