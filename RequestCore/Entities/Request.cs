@@ -1,26 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using RequestCore.Enums;
+using System.Collections.Generic;
 
 namespace RequestTester.Entities
 {
     public class Request
     {
-        //server path
+        //request path without server & port
         public string path = "";
 
+        //request type
         public RequestType requestType = RequestType.GET;
 
+        //path params (name:value)
         public Dictionary<string, string> parameters;
 
-        public string content;
+        //request body
+        public string content;        
 
-        public enum RequestType
-        {
-            GET,
-            POST,
-            PUT,
-            DELETE
-        }
-
+        //get query path with params
         public string query
         {
             get

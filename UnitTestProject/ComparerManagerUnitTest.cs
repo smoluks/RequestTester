@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RequestCore.Enums;
+using RequestTester.Entities;
+using RequestTester.Managers;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RequestTester.Entities;
-using RequestTester.Managers;
 
 namespace UnitTestProject
 {
@@ -14,16 +14,21 @@ namespace UnitTestProject
         [TestMethod]
         public async Task TestMethod1Async()
         {
-            var result = await RequestParallelManager.Compare(
-                new Request
-                {
-                    requestType = Request.RequestType.GET,
-                    parameters = new Dictionary<string, string>() { { "text", "42" } }
-                },
-                new string[] { "https://ya.ru/", "https://yandex.ru/" },
+            var testCase = new RequestCase(
+                    new Request
+                    {
+                        requestType = RequestType.GET,
+                        path = @"/search",
+                        parameters = new Dictionary<string, string>() { { "q", "42" } }
+                    }
+                );
+
+            await RequestParallelManager.SendRequestsParallelAsync(
+                testCase,
+                new string[] { "https://www.google.com", "http://www.google.com" },
                 CancellationToken.None);
 
-            Assert.IsTrue(result.result  == RequestParallelManager.CompareResult.Equals);
+            Assert.AreEqual(testCase._status, CaseStatus.Equals);
         }
     }
 }

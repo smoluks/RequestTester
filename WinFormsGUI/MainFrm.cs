@@ -1,4 +1,5 @@
-﻿using RequestTester.Entities;
+﻿using RequestCore.Enums;
+using RequestTester.Entities;
 using RequestTester.Managers;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Linq;
 
-namespace RequestTester
+namespace WinFormsGUI
 {
     public partial class MainFrm : Form
     {
@@ -64,7 +64,7 @@ namespace RequestTester
 
             foreach (var requestCase in requestsCases)
             {
-                requestCase._status = RequestCase.CaseStatus.NotDefined;
+                requestCase._status = CaseStatus.NotDefined;
             }
 
             var servers = new List<string>();
@@ -93,9 +93,9 @@ namespace RequestTester
 
             foreach (var requestCase in requestsCases)
             {
-                if (requestCase._status == RequestCase.CaseStatus.Running)
+                if (requestCase._status == CaseStatus.Running)
                 {
-                    requestCase._status = RequestCase.CaseStatus.Breaked;
+                    requestCase._status = CaseStatus.Breaked;
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace RequestTester
                 var coldTasks = new List<Task>(requestsCases.Count);
                 foreach (var requstCase in requestsCases)
                 {
-                    coldTasks.Add(new Task(async () => await RequestParallelManager.QueryParallel(requstCase, servers, token)));
+                    coldTasks.Add(new Task(async () => await RequestParallelManager.SendRequestsParallelAsync(requstCase, servers, token)));
                 }
 
                 await ThreadManager.Run(coldTasks, maxParallel, caseCallback, token);

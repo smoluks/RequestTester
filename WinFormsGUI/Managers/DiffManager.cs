@@ -15,7 +15,7 @@ namespace RequestTester.Managers
             int i = 0;
             foreach (var result in requestCase.Responses.Values)
             {
-                File.WriteAllText($"{filePath}{i}.txt", result.data);
+                File.WriteAllText($"{filePath}{i}.txt", result.body);
                 winMergeString += $"{filePath}{i++}.txt ";
             }
 

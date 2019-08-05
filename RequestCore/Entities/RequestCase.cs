@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RequestCore.Enums;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace RequestTester.Entities
@@ -7,11 +8,14 @@ namespace RequestTester.Entities
     {
         public Request request;
 
+        //Responces from each server
         public Dictionary<string, Response> Responses = new Dictionary<string, Response>();
 
+        //Responces compare result
         public CaseStatus _status = CaseStatus.NotDefined;
 
         public string Request { get => request.ToString(); }
+
         public string Status
         {
             get
@@ -39,7 +43,6 @@ namespace RequestTester.Entities
             this.request = request;
         }
 
-
         public void CompareResults(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -57,30 +60,21 @@ namespace RequestTester.Entities
                 }
             }
 
-            string lastcontent = null;
+            Response lastcontent = null;
             foreach (var responce in Responses.Values)
             {
                 if (lastcontent != null)
                 {
-                    if (!responce.data.Equals(lastcontent))
+                    if (!responce.statusCode.Equals(lastcontent.statusCode) || !responce.body.Equals(lastcontent.body))
                     {
                         _status = CaseStatus.NotEquals;
                         return;
                     }
                 }
-                lastcontent = responce.data;
+                lastcontent = responce;
             }
             _status = CaseStatus.Equals;
         }
 
-        public enum CaseStatus
-        {
-            NotDefined,
-            Running,
-            Equals,
-            NotEquals,
-            Error,
-            Breaked
-        }
     }
 }

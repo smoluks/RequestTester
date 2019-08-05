@@ -1,4 +1,5 @@
-﻿using RequestTester.Entities;
+﻿using RequestCore.Enums;
+using RequestTester.Entities;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -13,7 +14,7 @@ namespace RequestTester.Managers
 
         static readonly HttpClient client = new HttpClient();
 
-        public static async Task<Response> MakeRequest(Request request, string server, CancellationToken cancellationToken, int timeout = 0)
+        public static async Task<Response> SendRequestAsync(Request request, string server, CancellationToken cancellationToken, int timeout = 0)
         {
            // if(timeout == 0)
            //     client.Timeout = TimeSpan.FromMilliseconds(defaultTimeout);
@@ -25,32 +26,31 @@ namespace RequestTester.Managers
             {
                 switch(request.requestType)
                 {
-                    case Request.RequestType.GET:
+                    case RequestType.GET:
                         using (var result = await client.GetAsync(server + request.query, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
-                    case Request.RequestType.POST:
+                    case RequestType.POST:
                         using (var content = new StringContent(request.content, UnicodeEncoding.UTF8, "application/json"))
                         using (var result = await client.PostAsync(server + request.query, content, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
-                    case Request.RequestType.PUT:
+                    case RequestType.PUT:
                         using (var content = new StringContent(request.content, UnicodeEncoding.UTF8, "application/json"))
                         using (var result = await client.PutAsync(server + request.query, content, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
-                    case Request.RequestType.DELETE:
+                    case RequestType.DELETE:
                         using (var result = await client.DeleteAsync(server + request.query, cancellationToken))
                         {
                             return new Response(result.StatusCode, await result.Content.ReadAsStringAsync());
                         }
                     default:
                         throw new ApplicationException($"Unknown request type: {request.requestType}");
-                }
-                
+                }                
             }
             catch(HttpRequestException e)
             {

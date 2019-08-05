@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RequestCore.Enums;
 using RequestTester.Entities;
 using RequestTester.Managers;
 using System.Collections.Generic;
@@ -13,17 +14,17 @@ namespace UnitTestProject
         [TestMethod]
         public async Task TestMethod1()
         {
-            var result = await RequestManager.MakeRequest(new Request
+            var responce = await RequestManager.SendRequestAsync(new Request
             {
-                requestType = Request.RequestType.GET,
-                parameters = new Dictionary<string, string>(){ { "text", "42"} }
+                requestType = RequestType.GET,
+                parameters = new Dictionary<string, string>() { { "text", "42" } }
             },
             "https://ya.ru/",
             CancellationToken.None);
 
-            Assert.IsTrue(result.isSuccessed);
-            Assert.AreEqual(result.statusCode, System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(result.data.Contains(@"<!DOCTYPE html>"));
+            Assert.IsTrue(responce.isSuccessed);
+            Assert.AreEqual(responce.statusCode, System.Net.HttpStatusCode.OK);
+            Assert.IsTrue(responce.body.Contains(@"<!DOCTYPE html>"));
         }
     }
 }
